@@ -9,7 +9,7 @@ namespace Week9._2.DataAcces.Connection.SqlServer
 {
     public class PublisherRepository
     {
-        public void numberOfBooks(SqlConnection connection)
+        public static void numberOfBooks(SqlConnection connection)
         {
             using (connection)
             {
@@ -39,7 +39,7 @@ namespace Week9._2.DataAcces.Connection.SqlServer
 
 
 
-        public void BookCosts(SqlConnection connection)
+        public static void BookCosts(SqlConnection connection)
         {
             using (connection)
             {
@@ -66,8 +66,9 @@ namespace Week9._2.DataAcces.Connection.SqlServer
                 }
             }
         }
+               
 
-        public void getTopTen(SqlConnection connection)
+        public static void getTopTen(SqlConnection connection)
         {
 
             using (SqlCommand command = new SqlCommand("select top 10 PublisherId, Name from Publisher", connection))
@@ -88,6 +89,34 @@ namespace Week9._2.DataAcces.Connection.SqlServer
                 reader.Close();
             }
 
+        }
+
+        public static List <NumberOfBooksPerPublisher> NumberOfBooks(SqlConnection connection)
+        {
+            List<NumberOfBooksPerPublisher> ListBooks = new List<NumberOfBooksPerPublisher>();
+
+            using (SqlCommand command = new SqlCommand("select  p.Name as PublisherName, " +
+                                                                " count(b.PublisherId) as NoOfBooks" +
+                                                                " from Publisher p left join Book b on b.PublisherId = p.PublisherId" +
+                                                                " Group by p.Name", connection))
+            {
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var book = new NumberOfBooksPerPublisher();
+                        book.NoOfBooks = (int)reader["NoOfBooks"];
+                        book.PublisherName = reader["PublisherName"] as string;                       
+
+                        ListBooks.Add(book);
+                        Console.WriteLine($"Publihser name:{book.PublisherName}; Number of Books: {book.NoOfBooks}");
+                    }                    
+                }
+                return ListBooks;
+            }
         }
     }
 }

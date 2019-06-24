@@ -99,10 +99,6 @@ namespace Week9._2.DataAcces.Connection.SqlServer
         }
 
 
-
-
-
-
         public int Update(Book book)
         {
 
@@ -147,7 +143,6 @@ namespace Week9._2.DataAcces.Connection.SqlServer
 
             /*Number of rows*/
             return (int)command.ExecuteNonQuery();
-
 
         }
 
@@ -212,6 +207,36 @@ namespace Week9._2.DataAcces.Connection.SqlServer
                     reader.Close();
                 }
                 
+        }
+
+        public static List<Book> LoadBook(SqlConnection connection)
+        {
+            var listOfBooks = new List<Book>();
+
+            using (connection)
+            {
+
+                string sql = "Select * from Book";
+                using (var command = new SqlCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var book = new Book();
+                            book.Title = reader["Title"].ToString();
+                            book.PublisherId = Convert.ToInt32(reader["PublisherId"]);
+                            book.Price = Convert.ToInt32(reader["Price"]);
+                            book.Year = Convert.ToInt32(reader["Year"]);
+
+                            listOfBooks.Add(book);
+                            Console.WriteLine($"Title: {book.Title}; Publisher ID: {book.PublisherId}; Price{book.Price}; Year: {book.Year}");
+                        }
+                    }
+                }
+            }
+
+            return listOfBooks;
         }
 
 
