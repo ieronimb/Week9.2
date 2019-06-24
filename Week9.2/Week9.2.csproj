@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="DataAcces.Connection.SqlServer\ConnectionManager.cs" />
     <Compile Include="DataAcces.Connection.SqlServer\BookRepository.cs" />
+    <Compile Include="DataAcces.Connection.SqlServer\NumberOfBooksPerPublisher.cs" />
     <Compile Include="DataAcces.Connection.SqlServer\PublisherRepository.cs" />
     <Compile Include="DataAccess\BaseRepository.cs" />
     <Compile Include="Entities\Common\BaseEntity.cs" />

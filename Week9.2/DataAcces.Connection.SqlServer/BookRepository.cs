@@ -55,11 +55,9 @@ namespace Week9._2.DataAcces.Connection.SqlServer
             return (int)command.ExecuteScalar();
         }
 
-
-
         public Book Read(int id)
         {
-            string query = $"select * from book where Year = @id";
+            string query = $"select * from book where BookId = @id";
 
             SqlParameter idParam = new SqlParameter("@id", System.Data.DbType.Int32)
             {
@@ -87,7 +85,7 @@ namespace Week9._2.DataAcces.Connection.SqlServer
                 var Price = (reader["Price"] as decimal?) ?? 0;
 
                 return new Book
-                {                   
+                {
                     Title = Title,
                     PublisherId = PublisherId,
                     Year = Year,
@@ -102,61 +100,64 @@ namespace Week9._2.DataAcces.Connection.SqlServer
 
 
 
+
+
+
         public int Update(Book book)
         {
-            
-            
-                const string query = "UPDATE Book SET Title=@Title, PublisherId=@PublisherId, " +
-                                                                "Year=@Year, Price=@Price Where BookId = @BookId; select cast(scope_identity() as int);";
 
-                SqlParameter BookId = new SqlParameter("@BookId", System.Data.DbType.Int32)
-                {
-                    Value = book.BookId
-                };
 
-                SqlParameter Title = new SqlParameter("@Title", System.Data.DbType.String)
-                {
-                    Value = book.Title
-                };
+            const string query = "UPDATE Book SET Title=@Title, PublisherId=@PublisherId, " +
+                                                            "Year=@Year, Price=@Price Where BookId = @BookId; select cast(scope_identity() as int);";
 
-                SqlParameter Year = new SqlParameter("@Year", System.Data.DbType.Int32)
-                {
-                    Value = book.Year
-                };
+            SqlParameter BookId = new SqlParameter("@BookId", System.Data.DbType.Int32)
+            {
+                Value = book.BookId
+            };
 
-                SqlParameter PublisherId = new SqlParameter("@PublisherId", System.Data.DbType.Int32)
-                {
-                    Value = book.PublisherId
-                };
-                SqlParameter Price = new SqlParameter("@Price", System.Data.DbType.Decimal)
-                {
-                    Value = book.Price
-                };
+            SqlParameter Title = new SqlParameter("@Title", System.Data.DbType.String)
+            {
+                Value = book.Title
+            };
 
-                var command = new SqlCommand
-                {
-                    CommandText = query,
-                    Connection = Connection
-                };
+            SqlParameter Year = new SqlParameter("@Year", System.Data.DbType.Int32)
+            {
+                Value = book.Year
+            };
 
-                command.Parameters.AddWithValue("@Title", Title);
-                command.Parameters.AddWithValue("@PublisherId", PublisherId);
-                command.Parameters.AddWithValue("@Year", Year);
-                command.Parameters.AddWithValue("@Price", Price);               
+            SqlParameter PublisherId = new SqlParameter("@PublisherId", System.Data.DbType.Int32)
+            {
+                Value = book.PublisherId
+            };
+            SqlParameter Price = new SqlParameter("@Price", System.Data.DbType.Decimal)
+            {
+                Value = book.Price
+            };
 
-                /*Number of rows*/
-                return (int)command.ExecuteNonQuery();              
-            
-                     
+            var command = new SqlCommand
+            {
+                CommandText = query,
+                Connection = Connection
+            };
+
+            command.Parameters.AddWithValue("@Title", Title);
+            command.Parameters.AddWithValue("@PublisherId", PublisherId);
+            command.Parameters.AddWithValue("@Year", Year);
+            command.Parameters.AddWithValue("@Price", Price);
+
+            /*Number of rows*/
+            return (int)command.ExecuteNonQuery();
+
+
         }
 
 
         public void Delete(int BookId)
         {
-          
+
             try
             {
-                const string query = "DELETE FROM  Book Where BookId = @BookId; select cast(scope_identity() as int); ";              
+                const string query = "DELETE FROM  Book Where BookId = @BookId; select cast(scope_identity() as int); ";
 
 
                 SqlParameter bookId = new SqlParameter("@BookId", System.Data.DbType.Int32)
@@ -175,7 +176,7 @@ namespace Week9._2.DataAcces.Connection.SqlServer
 
 
                 int rows = Convert.ToInt32(command.ExecuteNonQuery());
-                Console.WriteLine($"Total rows deleted:{rows}"); 
+                Console.WriteLine($"Total rows deleted:{rows}");
 
             }
 
@@ -188,5 +189,31 @@ namespace Week9._2.DataAcces.Connection.SqlServer
                 Console.WriteLine($"Book with ID {BookId} was deleted.");
             }
         }
+
+
+        public void getTopTen(SqlConnection connection)
+        {
+          
+                using (SqlCommand command = new SqlCommand("select top 10 PublisherId, Name from Publisher",connection))
+                {               
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.HasRows)
+                    {
+                        Console.WriteLine("{0}\t\t{1}", reader.GetName(0), reader.GetName(1));
+
+                        while (reader.Read())
+                        {
+                            Console.WriteLine("{0}\t\t{1}", reader.GetInt32(0), reader.GetString(1));
+                        }
+                        reader.NextResult();
+                    }
+                    reader.Close();
+                }
+                
+        }
+
+
     }
 }

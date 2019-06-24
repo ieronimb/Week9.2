@@ -36,12 +36,9 @@ namespace Week9._2
             //Book updateBook = new Book { BookId = 2,Title ="Moglie",PublisherId =2, Year = 2016, Price = 125 };
             //var updateId = updateBookRepository.Update(updateBook);
             //var updatedBook = updateBookRepository.Read(updateId);
-            //updatedBook.PrintBook();
-
-            var read = new BookRepository(connection);
-           
-           
-
+            //updatedBook.PrintBook();                   
+            var updateBookRepository = new BookRepository(connection);
+            updateBookRepository.getTopTen(connection);
 
 
 
