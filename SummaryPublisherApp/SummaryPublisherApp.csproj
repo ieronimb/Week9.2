@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{705A02DB-FC02-47CA-BFA6-5C0CA6CEC4C5}</ProjectGuid>
+    <ProjectGuid>{391A81E4-2036-4E70-AE55-82E455D4208D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Week9._2</RootNamespace>
-    <AssemblyName>Week9.2</AssemblyName>
+    <RootNamespace>SummaryPublisherApp</RootNamespace>
+    <AssemblyName>SummaryPublisherApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,34 +34,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAcces.Connection.SqlServer\ConnectionManager.cs" />
-    <Compile Include="DataAcces.Connection.SqlServer\BookRepository.cs" />
-    <Compile Include="Entities\NumberOfBooksPerPublisher.cs" />
-    <Compile Include="DataAcces.Connection.SqlServer\PublisherRepository.cs" />
-    <Compile Include="DataAccess\BaseRepository.cs" />
-    <Compile Include="Entities\Common\BaseEntity.cs" />
-    <Compile Include="Entities\Book.cs" />
-    <Compile Include="Entities\Publisher.cs" />
-    <Compile Include="SummaryBookApp.cs" />
+    <Compile Include="SummaryPublisherApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Week9.2\Week9.2.csproj">
+      <Project>{705a02db-fc02-47ca-bfa6-5c0ca6cec4c5}</Project>
+      <Name>Week9.2</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

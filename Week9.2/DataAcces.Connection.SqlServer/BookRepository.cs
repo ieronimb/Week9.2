@@ -189,18 +189,18 @@ namespace Week9._2.DataAcces.Connection.SqlServer
         public void getTopTen(SqlConnection connection)
         {
           
-                using (SqlCommand command = new SqlCommand("select top 10 PublisherId, Name from Publisher",connection))
+                using (SqlCommand command = new SqlCommand("select top 10 Title, Year, Price from Book",connection))
                 {               
 
                 SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.HasRows)
                     {
-                        Console.WriteLine("{0}\t\t{1}", reader.GetName(0), reader.GetName(1));
+                        Console.WriteLine("{0}\t\t{1}\t\t{2}", reader.GetName(0), reader.GetName(1), reader.GetName(2));
 
                         while (reader.Read())
                         {
-                            Console.WriteLine("{0}\t\t{1}", reader.GetInt32(0), reader.GetString(1));
+                            Console.WriteLine("{0}\t\t{1}\t\t{2}", reader.GetString(0), reader.GetInt32(1),reader.GetDecimal(2));
                         }
                         reader.NextResult();
                     }
